@@ -19,7 +19,7 @@ void PlayerAI::keyboardHold(const Uint8* state) {
   if(move.length() > 0.0f)
     move = move * (1.0f / move.length());
   
-  player->moveObject(move);
+  player->moveObject(move * PLAYER_SPEED, true);
 }
 
 void PlayerAI::keyboardPress(int key, bool repeat) {

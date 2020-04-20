@@ -1,8 +1,11 @@
 #ifndef __ENEMY_H
 #define __ENEMY_H
 
+#include <vector>
+
 #include "object.h"
 #include "dungeon-trap/character.h"
+#include "dungeon-trap/environment.h"
 
 class EnemyAI : public IdleObject {
 private:

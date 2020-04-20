@@ -109,9 +109,11 @@ void Polygon::setCentroidPosition(Vector2D pos) {
 }
 
 void Polygon::translate(Vector2D translation) {
-  for(unsigned int i = 0; i < polygon.size(); ++i)
+  centroidPos = Vector2D();
+  for(unsigned int i = 0; i < polygon.size(); ++i) {
     polygon[i] = polygon[i] + translation;
-  centroidPos = centroidPos + translation;
+    centroidPos = centroidPos + polygon[i] * (1.0f / polygon.size());
+  }
 }
 
 void Polygon::rotate(float angle, float x, float y) {
@@ -145,7 +147,7 @@ bool Polygon::inside(Vector2D point) {
 
 bool Polygon::collides(Polygon* otherPoly) {
   // Circle to circle intersection
-  if(circleRadius >= 0.0f && otherPoly->circleRadius >= 0.0f) {
+  /*if(circleRadius >= 0.0f && otherPoly->circleRadius >= 0.0f) {
     return pointDistance(polygon[0], otherPoly->polygon[0]) 
         <= circleRadius + otherPoly->circleRadius;
   } else if(circleRadius >= 0.0f) { // Circle to polygon intersection
@@ -171,8 +173,32 @@ bool Polygon::collides(Polygon* otherPoly) {
       }
     return otherPoly->inside(polygon[0]) ||
            inside(otherPoly->polygon[0]);
+  }*/
+  
+  //return false;
+  
+  float x1, y1, x2, y2;
+  float ox1, oy1, ox2, oy2;
+  
+  x1 = y1 = ox1 = oy1 =  1e9;
+  x2 = y2 = ox2 = oy2 = -1e9;
+  
+  for(unsigned int i = 0; i < polygon.size(); ++i) {
+    x1 = std::min(x1, polygon[i].x);
+    x2 = std::max(x2, polygon[i].x);
+    y1 = std::min(y1, polygon[i].y);
+    y2 = std::max(y2, polygon[i].y);
   }
-  return false;
+  
+  for(unsigned int i = 0; i < otherPoly->polygon.size(); ++i) {
+    ox1 = std::min(ox1, otherPoly->polygon[i].x);
+    ox2 = std::max(ox2, otherPoly->polygon[i].x);
+    oy1 = std::min(oy1, otherPoly->polygon[i].y);
+    oy2 = std::max(oy2, otherPoly->polygon[i].y);
+  }
+  
+  return std::max(x1, ox1) <= std::min(x2, ox2) &&
+         std::max(y1, oy1) <= std::min(y2, oy2);
 }
 
 Polygon* getRectangle(float x, float y, float w, float h) {

@@ -1,17 +1,18 @@
 #include <SDL2/SDL.h>
 #include "dungeon-trap/mainroom.h"
+#include "dungeon-trap/resources.h"
 
 SDL_Window* window;
 SDL_Renderer* renderer;
 
 void init() {
   
-  if(SDL_Init(SDL_INIT_VIDEO) != 0) {
+  if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
     SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
     exit(1);
   }
   
-  window = SDL_CreateWindow("Deeznuts", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 400, 600, SDL_WINDOW_SHOWN);
+  window = SDL_CreateWindow("Deeznuts", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
   
   if(window == NULL) {
     SDL_Log("Unable to create window: %s\n", SDL_GetError());
@@ -21,6 +22,16 @@ void init() {
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   if(renderer == NULL) {
     SDL_Log("Unable to create renderer: %s\n", SDL_GetError());
+    exit(1);
+  }
+  
+  if(!IMG_Init(IMG_INIT_PNG)) {
+    SDL_Log("Unable to initialized SDL_Image: %s", IMG_GetError());
+    exit(1);
+  }
+  
+  if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 512) < 0) {
+    SDL_Log("Unable to initialize SDL_Mixer: %s", Mix_GetError());
     exit(1);
   }
 }
@@ -37,6 +48,7 @@ void deinit() {
 
 int main(int argc, char** argv) {
   init();
+  loadMedia(renderer);
   SDL_ShowCursor(SDL_DISABLE);
   
   MainRoom* mainRoom = new MainRoom();
@@ -66,7 +78,8 @@ int main(int argc, char** argv) {
   }
   
   delete mainRoom;
-  
+
+  freeMedia();
   deinit();
   return 0;
 }

@@ -34,9 +34,15 @@ TARGET=$(SDIR)/main.cpp
 $(ODIR)/%.o: $(SDIR)/%.$(SRCEXT)
 	$(CC) -c -o $@ $^ $(FLAGS)
 
-dungeon-trap: $(OBJ)
-	echo "Comping boilerplates"
+DTDEP=$(ODIR)/timer.o $(ODIR)/room.o $(ODIR)/object.o $(ODIR)/graphicshandler.o $(ODIR)/geometry.o $(ODIR)/dungeon-trap/character.o $(ODIR)/dungeon-trap/colliders.o $(ODIR)/dungeon-trap/enemy.o $(ODIR)/dungeon-trap/environment.o $(ODIR)/dungeon-trap/mainroom.o $(ODIR)/dungeon-trap/player.o $(ODIR)/dungeon-trap.o $(ODIR)/dungeon-trap/resources.o
+
+dungeon-trap: $(DTDEP)
+	echo "Compiling dungeon-trap"
 	$(CC) -o $(BDIR)/$@ $^ $(FLAGS)
+
+level-editor:
+	echo "Compiling level-editor"
+	$(CC) -o $(BDIR)/$@ $(SDIR)/level-editor.cpp
 
 .PHONY: clean
 
