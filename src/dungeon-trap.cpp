@@ -30,7 +30,7 @@ void init() {
     exit(1);
   }
   
-  if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 512) < 0) {
+  if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {
     SDL_Log("Unable to initialize SDL_Mixer: %s", Mix_GetError());
     exit(1);
   }

@@ -16,6 +16,7 @@ void loadMedia(SDL_Renderer* renderer) {
   textures.push_back(new TileSetRenderer("media/background2.png", renderer));
   textures.push_back(new TileSetRenderer("media/background3.png", renderer));
   textures.push_back(new TileSetRenderer("media/background4.png", renderer));
+  textures.push_back(new TileSetRenderer("media/background5.png", renderer));
   textures.push_back(new TileSetRenderer("media/player.png", renderer,
                                          TILE_WIDTH, TILE_HEIGHT));
   textures.push_back(new TileSetRenderer("media/enemy.png", renderer,

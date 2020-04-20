@@ -24,7 +24,7 @@ const float ENEMY_SPEED = 1.0f;
 const float TILE_WIDTH = 32.0f;
 const float TILE_HEIGHT = 32.0f;
 
-const int LAST_LEVEL = 10;
+const int LAST_LEVEL = 9;
 
 const int MAX_SIDES = 4;
 enum Sides {
@@ -50,6 +50,7 @@ enum Textures {
   BACKGROUND2,
   BACKGROUND3,
   BACKGROUND4,
+  BACKGROUND5,
   PLAYER_TEX,
   ENEMY_TEX,
   GATES
@@ -62,7 +63,7 @@ enum Sounds {
 };
 
 const Textures BGTEX[] = {BACKGROUND0, BACKGROUND1, BACKGROUND2, 
-                          BACKGROUND3, BACKGROUND4};
+                          BACKGROUND3, BACKGROUND4, BACKGROUND5};
 
 TileSetRenderer* getTexture(Textures tex);
 
